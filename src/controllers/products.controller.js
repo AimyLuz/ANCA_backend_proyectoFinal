@@ -1,6 +1,6 @@
 import ProductsService from "../service/products.service.js";
 import { createError, ERROR_TYPES } from '../utils/errorDirectory.js';
-import authMiddleware from '../middleware/authMiddleware.js';
+import authMiddleware from '../middleware/authmiddleware.js';
 import { adminOnly } from '../middleware/authorizationMiddleware.js';
 import { addLogger, logger } from "../utils/logger.js";
 import UserDTO from "../dto/user.dto.js";

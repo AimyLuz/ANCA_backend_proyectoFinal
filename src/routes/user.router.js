@@ -2,7 +2,7 @@
 import express from "express";
 import passport from "passport";
 import UserController from "../controllers/user.controller.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+import authMiddleware from "../middleware/authmiddleware.js";
 const uc = new UserController();
 import checkUserRole from "../middleware/checkrole.js";
 import UserRepository from "../repositories/user.repository.js";

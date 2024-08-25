@@ -2,7 +2,7 @@
 import express from "express";
 const router = express.Router();
 import CartsController from "../controllers/carts.controller.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+import authMiddleware from "../middleware/authmiddleware.js";
 import { userOnly } from "../middleware/authorizationMiddleware.js";
 import CartsService from "../service/carts.service.js";
 

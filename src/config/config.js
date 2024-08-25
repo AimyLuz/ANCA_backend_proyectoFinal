@@ -14,7 +14,7 @@ dotenv.config({
 
 
 const configObject = {
-    puerto: process.env.PUERTO,
+    puerto: process.env.PUERTO || process.env.PORT || 8080,
     mongo_url: process.env.MONGO_URL
 }
 

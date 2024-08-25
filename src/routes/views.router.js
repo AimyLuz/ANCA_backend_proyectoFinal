@@ -1,7 +1,7 @@
 //views.router.js
 import express from 'express';
 import ProductsController from '../controllers/products.controller.js';
-import authMiddleware from '../middleware/authMiddleware.js';
+import authMiddleware from '../middleware/authmiddleware.js';
 import checkUserRole from '../middleware/checkrole.js';
 import CartsController from '../controllers/carts.controller.js';
 import ProductsService from '../service/products.service.js';
