@@ -1,0 +1,31 @@
+ <h1>Upload Documents</h1>
+
+  <form action="/api/users/{{user._id}}/documents" method="POST" enctype="multipart/form-data">
+    <!-- Foto de perfil -->
+    <div>
+      <label for="profile">Profile Picture</label>
+      <input type="file" name="profile" accept="image/*" required>
+    </div>
+
+    <!-- Documentos de productos -->
+    <div>
+      <label for="product">Product Document</label>
+      <input type="file" name="product" accept=".pdf,.doc,.docx" required>
+    </div>
+
+    <!-- Otros documentos -->
+    <div>
+      <label for="document">Additional Documents (up to 3 files)</label>
+      <input type="file" name="document" accept=".pdf,.doc,.docx" multiple required>
+    </div>
+
+    <button type="submit">Upload Documents</button>
+  </form>
+
+  {{#if error}}
+    <p style="color: red;">{{error}}</p>
+  {{/if}}
+
+  {{#if success}}
+    <p style="color: green;">{{success}}</p>
+  {{/if}}

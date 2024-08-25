@@ -1,0 +1,54 @@
+
+{{#if user}}
+<header>
+  <div class="container text-center">
+    <p>Bienvenido!, {{user.first_name}} {{user.last_name}}!</p>
+    <p>Rol: {{user.role}} </p>
+         <form action="/api/users/logout" method="POST">
+    <button type="submit">Logout</button>
+  </form>
+  </div>
+</header>
+{{/if}}
+
+<div class="container text-center">
+  <h1 class="my-4">Bienvenidos a Arrabal Music Store</h1>
+</div>
+
+<hr>
+
+<div class="container text-center">
+  <h2>Lista de productos</h2>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    {{#each products}}
+    <div class="col-md-4 col-lg-3 mb-3">
+      <div class="text-center card" style="width: 16rem; height: 36rem;">
+        <div class="card-header">Categoría: {{this.category}}</div>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <div class="card-title h5">{{this.title}}</div>
+            <img src="{{this.thumbnail.[0]}}" class="thumbnail" alt="Thumbnail" style="max-width: 10rem; max-height: 10rem; object-fit: contain;">
+            <div class="mb-2 text-muted card-subtitle h6">Precio: ${{this.price}}</div>
+            <p class="card-text">{{this.description}}</p>
+          </div>
+          <div class="text-muted card-footer">Stock disponible: {{this.stock}} unidades</div>
+                         <form class="botones" action="/api/carts/{{../cartId}}/product/{{id}}" method="POST">
+                    <button type="submit" class="btn btn-success">Agregar al Carrito</button>
+                </form>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{#if hasPrevPage}}
+    <a href="products?page={{prevPage}}"> Anterior </a>
+  {{/if}}
+
+  {{#if hasNextPage}}
+    <a href="products?page={{nextPage}}"> Siguiente </a>
+  {{/if}}
+
+  <p>Página {{currentPage}} de {{totalPages}} </p>
+</div>

@@ -1,0 +1,89 @@
+
+
+/*HEADER*/
+
+.tamLogo {
+    width: 250px;
+}
+
+.fuentesNav {
+    font-size: 1.5rem;
+    padding: 10px;
+}
+
+.encabezado {
+    /* background-color: bisque; */
+    border-top: solid 20px #FE502D;
+    /* border-bottom: solid 1px #c1101a; */
+    margin-bottom: 30px;
+}
+
+nav li a {
+    text-transform: uppercase;
+    text-decoration: none;
+    margin: 15px;
+    color: gray;
+    border-left: 1px solid #FE502D;
+    border-right: 1px solid #FE502D;
+    padding: 0 15px;
+}
+
+a:hover {
+    background-color: #FE502D;
+    color: #fafafa;
+}
+
+
+
+body {
+    background-color: rgb(0, 2, 2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    color:aliceblue;
+}
+.formulario{
+    display: flex;
+    margin: 5rem;
+    justify-content: center;
+}
+
+.formulario_fondo{
+    background-color: #9062fa;
+    padding: 15px;
+    border-radius: 20px;
+    display: flex;
+    border: 1px solid black;
+    width: 350px;
+}
+
+form input {
+    padding: 3px 5px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+    margin-left: 3px;
+    border-style: inset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+}
+.card-text{
+    color: black;
+}
+p{
+    color: aliceblue;
+}
+/*
+button{
+    background-color: black;
+    color: aliceblue;
+    border-radius: 12px;
+
+
+}*/
+.link{
+    text-decoration: none;
+    color: aliceblue;
+    display: flex;
+    justify-content: center;
+}
+

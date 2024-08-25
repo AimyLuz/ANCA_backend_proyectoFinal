@@ -1,0 +1,37 @@
+
+        <h1>Administración de Usuarios</h1>
+        {{!-- Verifica si hay usuarios --}}
+        {{#if users.length}}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Ultima conección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{!-- Recorre cada usuario y muestra sus datos --}}
+                    {{#each users}}
+                        <tr>
+                            <td>{{this._id}}</td>
+                            <td>{{this.first_name}}</td>
+                            <td>{{this.email}}</td>
+                            <td>{{this.role}}</td>
+                            <td>{{this.last_connection}}</td>
+                            <td>
+                                <a href="/admin/users/edit/{{this._id}}" class="btn btn-primary">Editar</a>
+                                <form action="/admin/users/delete/{{this._id}}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p>No hay usuarios registrados.</p>
+        {{/if}}

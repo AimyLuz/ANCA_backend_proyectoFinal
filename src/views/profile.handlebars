@@ -1,0 +1,37 @@
+
+<h1>Mi Perfil</h1>
+
+
+<div class="profile-card">
+
+    <div class="form-container">
+        <div class="profile-info">
+            <p><strong>Nombre:</strong> {{user.first_name}}</p>
+            <p><strong>Apellido:</strong> {{user.last_name}}</p>
+            <p><strong>Email:</strong> {{user.email}}</p>
+            <p><strong>Edad:</strong> {{user.age}}</p>
+            <h3>Role</h3>
+            <p>{{user.role}}</p>
+        </div>
+         <form action="/api/users/logout" method="POST">
+    <button class="btn btn-success"type="submit">Logout</button>
+  </form>
+    {{#if this.isAdmin}}
+    <a class="button" href="/realtimeproducts">Modificar Productos</a>
+    <a class="button" href="/admin/users">Administrar Usuarios</a>
+  {{else}}
+    <p><strong>Cart ID:</strong> <a href="/api/carts/{{user.cart}}">{{user.cart}}</a></p>
+    <a class="button" href="/chat">Chat en vivo</a>
+    <a class="button" href="/products">Tienda</a>
+  {{#if this.isUsuario}}
+  <a class="button" href="/documents">Volverse premium</a>
+  {{else}}
+  {{#if this.isPremium}}
+   <a class="button" href="/realtimeproducts">Dirigirse al panel premium</a>
+  {{/if}}
+
+  {{/if}}
+
+  {{/if}}
+    </div>
+</div>

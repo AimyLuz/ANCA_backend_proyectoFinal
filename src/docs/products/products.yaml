@@ -1,0 +1,337 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      parameters:
+        - name: page
+          in: query
+          description: Número de página
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: Límite de productos por página
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: sort
+          in: query
+          description: Ordenar productos por precio (asc o desc)
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: query
+          in: query
+          description: Filtro por categoría de productos
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Productos obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  products:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+                  hasPrevPage:
+                    type: boolean
+                    example: false
+                  hasNextPage:
+                    type: boolean
+                    example: true
+                  prevPage:
+                    type: integer
+                    example: null
+                  nextPage:
+                    type: integer
+                    example: 2
+                  currentPage:
+                    type: integer
+                    example: 1
+                  totalPages:
+                    type: integer
+                    example: 3
+        "500":
+          description: Error interno del servidor
+    post:
+      summary: Crea un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/CreateProduct"
+      responses:
+        "200":
+          description: Producto creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "400":
+          description: Error en los datos del producto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "500":
+          description: Error interno del servidor
+
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "500":
+          description: Error interno del servidor
+
+    put:
+      summary: Actualiza un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/UpdateProduct"
+      responses:
+        "200":
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "400":
+          description: Error en los datos del producto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "500":
+          description: Error interno del servidor
+
+    delete:
+      summary: Elimina un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por MongoDB
+        title:
+          type: string
+          description: Título del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: URLs de las imágenes del producto
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: integer
+          description: Cantidad en stock del producto
+        status:
+          type: boolean
+          description: Estado del producto (disponible o no)
+        category:
+          type: string
+          description: Categoría del producto
+      example:
+        _id: "64fbc49a2dfdb7f1d2ce8ff6"
+        title: "Producto A"
+        description: "Descripción del producto A"
+        price: 100.0
+        thumbnail: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"]
+        code: "PROD001"
+        stock: 10
+        status: true
+        category: "Electrónica"
+
+    ProductResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Estado de la operación
+        product:
+          $ref: "#/components/schemas/Product"
+        msg:
+          type: string
+          description: Mensaje de respuesta
+      example:
+        status: true
+        product:
+          _id: "64fbc49a2dfdb7f1d2ce8ff6"
+          title: "Producto A"
+          description: "Descripción del producto A"
+          price: 100.0
+          thumbnail: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"]
+          code: "PROD001"
+          stock: 10
+          status: true
+          category: "Electrónica"
+        msg: "Producto encontrado exitosamente"
+
+  requestBodies:
+    CreateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Título del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          description: Precio del producto
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: URLs de las imágenes del producto
+        code:
+          type: string
+          description: Código único del producto
+        stock:
+          type: integer
+          description: Cantidad en stock del producto
+        status:
+          type: boolean
+          description: Estado del producto (disponible o no)
+        category:
+          type: string
+          description: Categoría del producto
+      example:
+        title: "Producto B"
+        description: "Descripción del producto B"
+        price: 200.0
+        thumbnail: ["http://example.com/image1.jpg"]
+        code: "PROD002"
+        stock: 20
+        status: true
+        category: "Juguetes"
+
+    UpdateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Título del producto (opcional)
+        description:
+          type: string
+          description: Descripción del producto (opcional)
+        price:
+          type: number
+          description: Precio del producto (opcional)
+        thumbnail:
+          type: array
+          items:
+            type: string
+          description: URLs de las imágenes del producto (opcional)
+        code:
+          type: string
+          description: Código único del producto (opcional)
+        stock:
+          type: integer
+          description: Cantidad en stock del producto (opcional)
+        status:
+          type: boolean
+          description: Estado del producto (opcional)
+        category:
+          type: string
+          description: Categoría del producto (opcional)
+      example:
+        title: "Producto B actualizado"
+        description: "Descripción actualizada del producto B"
+        price: 250.0
+        thumbnail: ["http://example.com/image3.jpg"]
+        code: "PROD002"
+        stock: 15
+        status: true
+        category: "Juguetes"

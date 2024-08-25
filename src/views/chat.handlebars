@@ -1,0 +1,25 @@
+<section id="chat_section">
+    <aside class="chat_users">
+        <div class="chat_settings_container">
+        </div>
+        <div class="user">
+<div id="userLogin" style="display: none;">
+    <h3>{{user.first_name}}</h3>
+</div>
+        
+        </div>
+    </aside>
+    <div class="chat_container">
+        <div id="chat">
+            <div class="chat_title">
+                <h4><span>To:</span> Community Chat</h4>
+            </div>
+        </div>
+<input type="text" id="chatBox" placeholder="Type a message...">
+<button id="sendButton">Enviar</button>
+<p id="messagesLogs"></p>
+</div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/js/chat.js"></script>

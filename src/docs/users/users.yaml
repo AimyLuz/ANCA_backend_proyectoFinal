@@ -1,0 +1,125 @@
+paths:
+  /api/users:
+    get:
+      summary: Obtiene todos los usuarios de la base de datos
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Se obtienen todos los usuarios correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "500":
+          description: Error interno del servidor
+    post:
+      summary: Este endpoint crea un usuario
+      tags: 
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createUser"
+      responses:
+        "201":
+          description: Usuario creado correctamente
+        "500":
+          description: Error interno del servidor
+
+
+
+  /api/users/{uid}:
+    get:
+      summary: Obtiene un solo usuario por ID
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario que se quiere buscar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por MongoDB
+        first_name:
+          type: string
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        role:
+          type: string
+          description: Rol del usuario
+        email:
+          type: string
+          description: Email del usuario
+        age:
+          type: integer
+          description: edad del usuario
+        cart:
+          type: string
+          description: Id del carrito del usuario
+        password:
+          type: string
+          description: Password del usuario
+        
+      example:
+        _id: "666fbc49a2dfdb7f1d2ce8ff639"
+        first_name: "Sara"
+        last_name: "michi"
+        email: "Sara@lamichi.com"
+        age: 4
+        role: "usuario"
+        cart: "666fbc49a2b7f1d2ce8ff637"
+        password: "1234"
+  requestBodies:
+    createUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        role:
+          type: string
+          description: Rol del usuario
+        email:
+          type: string
+          description: Email del usuario
+        age:
+          type: integer
+          description: edad del usuario
+        password:
+          type: string
+          description: Password del usuario
+      example:
+        first_name: "Kirara"
+        last_name: "michi"
+        email: "kirara@lamichi.com"
+        age: 4
+        role: "usuario"
+        password: "1234"

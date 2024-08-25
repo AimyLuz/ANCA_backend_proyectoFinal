@@ -1,0 +1,41 @@
+
+<h1 class="text-center">Carrito de Compras</h1>
+<div class="container">
+    {{#each productos}}
+    <div class="card mb-3">
+        <div class="card-body">
+          <img src="{{this.product.thumbnail.[0]}}" class="thumbnail" alt="Thumbnail" style="max-width: 10rem; max-height: 10rem; object-fit: contain;">
+            <h5 class="card-title">Producto: {{this.product.title}}</h5>
+            <p class="card-text">Cantidad: {{this.quantity}}</p>
+            <p class="card-text">Precio c/u: ${{this.product.price}}</p></div>
+            <p class="card-text">Precio Total: ${{this.product.totalPrice}}</p>
+<button onclick="deleteProductCart('{{this.cartId}}', '{{this.product._id}}')" class="btn btn-danger">Eliminar</button>
+
+    </div>
+    {{/each}}
+        <div class="text-center mb-5">
+  <a href="/api/carts/{{this.cartId}}/purchase" class="btn btn-success btn-sm">Finalizar Compra</a>
+  <a class="btn btn-secondary btn-sm" href="/profile">Volver</a>
+  <a class="btn btn-danger btn-sm" href="/empty/{{this.cartId}}">Vaciar el carrito</a>
+
+</div>
+</div>
+<script>
+function deleteProductCart(cartId, productId) {
+    fetch(`/api/carts/${cartId}/product/${productId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.reload(); // Recargar la página para ver los cambios
+        } else {
+            alert("Error al eliminar el producto: " + data.msg);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Ocurrió un error al intentar eliminar el producto");
+    });
+}
+</script>
