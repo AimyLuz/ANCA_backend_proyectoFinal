@@ -4,7 +4,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/app.js --mode desarrollo",
+    "dev": "node src/app.js --mode desarrollo",
     "start": "node src/app.js --mode produccion",
     "test": "mocha test/supertest.test.js"
   },
