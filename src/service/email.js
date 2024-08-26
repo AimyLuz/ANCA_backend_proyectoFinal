@@ -50,7 +50,7 @@ async enviarCorreoRestablecimiento(email, first_name, token){
                     <p>Pediste restablecer la contraseña porque siempre te olvidas de todo. Te enviamos el codigo de confirmacion: </p>
                     <strong> ${token} </strong>
                     <p> Este codigo expira en una hora </p>
-                    <a href="http://localhost:8080/password"> Restablecer contraseña </a>
+                    <a href="https://ancabackendproyectofinal-production.up.railway.app/password"> Restablecer contraseña </a>
 
             `
         }
