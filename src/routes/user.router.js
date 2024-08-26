@@ -12,15 +12,17 @@ const router = express.Router();
 import upload from "../middleware/multer.js";
 import EmailManager from "../service/email.js";
 // Nueva ruta para obtener todos los usuarios
-router.get("/", async (req, res) => {
+/*router.get("/", async (req, res) => {
     try {
+        
         const users = await ur.getAll();
         res.status(200).json(users);
     } catch (error) {
         req.logger.error('Error al obtener los usuarios: ' + error.message);
         res.status(500).send('Error al obtener los usuarios');
     }
-});
+});*/
+
 //eliminar usuarios inactivos
 router.delete("/", async (req, res) => {
     try {
@@ -65,11 +67,12 @@ router.get("/:uid", async (req, res) => {
         res.status(500).send('Error al obtener el usuario');
     }
 });
+
 router.post("/", async (req, res) => {
     try {
         const newUser = req.body;
         const createdUser = await ur.create(newUser); // Suponiendo que tienes un método create en tu UserRepository
-        res.status(201).json(createdUser);
+        res.redirect("/login");
     } catch (error) {
         req.logger.error('Error al crear el usuario: ' + error.message);
         res.status(500).send('Error al crear el usuario');
@@ -77,6 +80,7 @@ router.post("/", async (req, res) => {
 });
 // Rutas para registrar y loguear usuarios
 router.post("/register", passport.authenticate("register", { failureRedirect: "/failedregister" }), uc.register);
+
 router.post("/login", passport.authenticate("login", { failureRedirect: "/faillogin" }), uc.login);
 
 // Rutas protegidas que requieren autenticación
