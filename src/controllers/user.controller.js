@@ -15,29 +15,34 @@ class UserController {
     async register(req, res) {
         const { first_name, last_name, email, password, age } = req.body;
         try {
+            console.log("Password recibido:", password); // Log para verificar la contraseña
+    
             const existeUsuario = await UsersModel.findOne({ email });
             if (existeUsuario) {
                 return res.status(400).send("El usuario ya existe");
             }
-
+    
             const nuevoCarrito = new CartsModel();
             await nuevoCarrito.save();
-
-            const nuevoUsuario = await UsersModel.create({
+            
+            const hashedPassword = createHash(password);
+            console.log("Hashed Password:", hashedPassword); // Log para verificar el hash
+    
+            const nuevoUsuario = new UsersModel({
                 first_name,
                 last_name,
                 email,
                 cart: nuevoCarrito._id,
-                password: createHash(password),
+                password: hashedPassword, // Asegúrate de usar el hash aquí
                 age
             });
-
+    
             await nuevoUsuario.save();
-
+    
             res.redirect("/login");
         } catch (error) {
-            next(createError(ERROR_TYPES.SERVER_ERROR, "Error interno del servidor", { originalError: error.message }));
-            req.logger.error("Error interno del servidor" + error.mensaje)
+            req.logger.error("Error interno del servidor: " + error.message);
+            res.status(500).send("Error interno del servidor");
         }
     }
     async login(req, res) {
@@ -92,11 +97,14 @@ class UserController {
 
     async createUser(req, res) {
         try {
-            // Lógica para crear un usuario
+            if (req.body.password) {
+                req.body.password = createHash(req.body.password);
+            }
+    
             const user = await UsersModel.create(req.body);
             res.status(201).json(user);
         } catch (error) {
-            next(createError(ERROR_TYPES.SERVER_ERROR, "Error interno del servidor", { originalError: error.message }));
+            //next(createError(ERROR_TYPES.SERVER_ERROR, "Error interno del servidor", { originalError: error.message }));
             req.logger.error("Error interno del servidor" + error.mensaje)
         }
         console.log("Sesión del usuario después de login:", req.session.user);
@@ -241,7 +249,7 @@ async cambiarRolPremium(req, res) {
         const actualizado = await UsersModel.findByIdAndUpdate(uid, {role: nuevoRol});
         res.json(actualizado); 
     } catch (error) {
-        res.status(500).send("Error en el servidor, a Fede le baja la temperatura a -4 grados ahora en verano"); 
+        res.status(500).send("Error en el servidor"); 
     }
 }
 

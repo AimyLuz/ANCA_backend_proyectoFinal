@@ -12,7 +12,7 @@ const router = express.Router();
 import upload from "../middleware/multer.js";
 import EmailManager from "../service/email.js";
 // Nueva ruta para obtener todos los usuarios
-/*router.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         
         const users = await ur.getAll();
@@ -21,7 +21,7 @@ import EmailManager from "../service/email.js";
         req.logger.error('Error al obtener los usuarios: ' + error.message);
         res.status(500).send('Error al obtener los usuarios');
     }
-});*/
+});
 
 //eliminar usuarios inactivos
 router.delete("/", async (req, res) => {
@@ -57,7 +57,7 @@ router.post('/admin/users/delete/:id', async (req, res) => {
 router.get("/:uid", async (req, res) => {
     try {
         const userId = req.params.uid;
-        const user = await ur.getById(userId); // Suponiendo que tienes un método getById en tu UserRepository
+        const user = await ur.getById(userId); // 
         if (!user) {
             return res.status(404).send({ error: 'Usuario no encontrado' });
         }
@@ -71,7 +71,7 @@ router.get("/:uid", async (req, res) => {
 router.post("/", async (req, res) => {
     try {
         const newUser = req.body;
-        const createdUser = await ur.create(newUser); // Suponiendo que tienes un método create en tu UserRepository
+        const createdUser = await ur.create(newUser); // 
         res.redirect("/login");
     } catch (error) {
         req.logger.error('Error al crear el usuario: ' + error.message);
