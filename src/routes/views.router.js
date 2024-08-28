@@ -2,6 +2,7 @@
 import express from 'express';
 import ProductsController from '../controllers/products.controller.js';
 import authMiddleware from '../middleware/authmiddleware.js';
+import { userOnly, adminOnly } from '../middleware/authorizationMiddleware.js';
 import checkUserRole from '../middleware/checkrole.js';
 import CartsController from '../controllers/carts.controller.js';
 import ProductsService from '../service/products.service.js';

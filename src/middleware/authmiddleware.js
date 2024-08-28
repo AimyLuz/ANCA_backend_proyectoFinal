@@ -6,6 +6,7 @@ const authMiddleware = (req, res, next) => {
   if (process.env.NODE_ENV === 'test') {
     return next();
 }
+console.log('Autenticación de usuario:', req.isAuthenticated(), req.session.user);
 
 if (req.isAuthenticated()) {
     // Si el usuario está autenticado, continúa con la siguiente función de middleware

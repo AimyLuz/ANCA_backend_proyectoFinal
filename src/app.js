@@ -44,7 +44,7 @@ app.use(session({
     secret: "secretCoder",
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 86400000 } // 1 día
+    //cookie: { secure: false, maxAge: 86400000 } // 1 día
 }));
 app.use((req, res, next) => {
     console.log("Sesión actual:", req.session);
