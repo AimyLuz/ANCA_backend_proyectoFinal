@@ -13,8 +13,12 @@ const ensureCart = async (req, res, next) => {
 
             req.user.cart = newCart._id;
             await UsersModel.findByIdAndUpdate(req.user._id, { cart: newCart._id });
-
-            req.session.user.cart = newCart._id; // Actualizar la sesión con el carrito del usuario
+            if (req.session && req.session.user) {
+                req.session.user.cart = newCart._id;
+            } else {
+                console.error("req.session.user no está definido");
+                return res.status(500).json({ error: 'Error interno del servidor' });
+            }// Actualizar la sesión con el carrito del usuario
             //req.session.user.cart = 'default-cart-id';
             console.log("Asegurando carrito para el usuario:", req.user);
         } catch (error) {

@@ -11,6 +11,7 @@ const ur = new UserRepository();
 const router = express.Router();
 import upload from "../middleware/multer.js";
 import EmailManager from "../service/email.js";
+import { createHash } from "../utils/hashbcryp.js";
 // Nueva ruta para obtener todos los usuarios
 router.get("/", async (req, res) => {
     try {
@@ -22,7 +23,22 @@ router.get("/", async (req, res) => {
         res.status(500).send('Error al obtener los usuarios');
     }
 });
+router.post("/", async (req, res) => {
+    try {
+        let newUser = req.body;
 
+        // Hashear la contraseña si está presente
+        if (newUser.password) {
+            newUser.password = createHash(newUser.password);
+        }
+
+        const createdUser = await ur.create(newUser);
+        res.redirect("/login");
+    } catch (error) {
+        req.logger.error('Error al crear el usuario: ' + error.message);
+        res.status(500).send('Error al crear el usuario');
+    }
+});
 //eliminar usuarios inactivos
 router.delete("/", async (req, res) => {
     try {
@@ -68,20 +84,16 @@ router.get("/:uid", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
-    try {
-        const newUser = req.body;
-        const createdUser = await ur.create(newUser); // 
-        res.redirect("/login");
-    } catch (error) {
-        req.logger.error('Error al crear el usuario: ' + error.message);
-        res.status(500).send('Error al crear el usuario');
-    }
-});
+
 // Rutas para registrar y loguear usuarios
 router.post("/register", passport.authenticate("register", { failureRedirect: "/failedregister" }), uc.register);
 
-router.post("/login", passport.authenticate("login", { failureRedirect: "/faillogin" }), uc.login);
+router.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
+    // Después de la autenticación exitosa, Passport asignará el usuario a req.user
+    req.session.user = req.user; // Asigna el usuario autenticado a la sesión
+    console.log('Session after login:', req.session); // Verifica el contenido de la sesión
+    res.redirect('/profile'); // Redirige a la página que desees después del login
+});
 
 // Rutas protegidas que requieren autenticación
 router.get("/profile", authMiddleware, uc.profile);

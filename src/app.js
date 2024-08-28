@@ -35,6 +35,41 @@ import SocketManager from './sockets/socketmanager.js'; // Asegúrate de importa
 
 
 
+
+// Middleware
+
+// Configuración de express-session
+app.use(session({
+    store: MongoStore.create({ mongoUrl: mongo_url, ttl: 86400 }),
+    secret: "secretCoder",
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 86400000 } // 1 día
+}));
+app.use((req, res, next) => {
+    console.log("Sesión actual:", req.session);
+    next();
+});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./src/public'));
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials:true
+}));
+app.use(addLogger);
+//GZIP: 
+app.use(compression());
+
+// Manejo de errores
+app.use(errorHandler);
+
+  // Passport
+  app.use(passport.initialize());
+  app.use(passport.session());
+  initializePassport();
+  
+  
 const swaggerOptions ={
     definition:{
         openapi: "3.0.1",
@@ -50,36 +85,6 @@ const specs = swaggerJSDoc(swaggerOptions);
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
-
-// Middleware
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./src/public'));
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials:true
-}));
-app.use(addLogger);
-//GZIP: 
-app.use(compression());
-// Configuración de express-session
-app.use(session({
-    store: MongoStore.create({ mongoUrl: mongo_url, ttl: 86400 }),
-    secret: "secretCoder",
-    resave: true,
-    saveUninitialized: true,
-}));
-
-// Manejo de errores
-app.use(errorHandler);
-
-  // Passport
-  app.use(passport.initialize());
-  app.use(passport.session());
-  initializePassport();
-  
 // Handlebars
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
