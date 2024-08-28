@@ -47,7 +47,7 @@ app.use(session({
     //cookie: { secure: false, maxAge: 86400000 } // 1 día
 }));
 app.use((req, res, next) => {
-    console.log("Sesión actual:", req.session);
+    //console.log("Sesión actual:", req.session);
     next();
 });
 app.use(express.json());

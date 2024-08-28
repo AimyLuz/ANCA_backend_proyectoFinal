@@ -91,7 +91,7 @@ router.post("/register", passport.authenticate("register", { failureRedirect: "/
 router.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
     // Después de la autenticación exitosa, Passport asignará el usuario a req.user
     req.session.user = req.user; // Asigna el usuario autenticado a la sesión
-    console.log('Session after login:', req.session); // Verifica el contenido de la sesión
+   // console.log('Session after login:', req.session); // Verifica el contenido de la sesión
     res.redirect('/profile'); // Redirige a la página que desees después del login
 });
 
@@ -116,7 +116,14 @@ router.get("/githubcallback", passport.authenticate("github", { failureRedirect:
 
 router.get('/current', authMiddleware, async (req, res) => {
     try {
-        const userDTO = await ur.getById(req.user._id);
+        const userId = req.user._id;
+
+        // Verifica si el ID es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).send('ID de usuario inválido');
+        }
+
+        const userDTO = await ur.getById(userId);
         res.json(userDTO);
     } catch (error) {
         res.status(500).send('Error interno del servidor');
@@ -179,7 +186,7 @@ router.post("/:uid/documents", upload.fields([
 
         res.status(200).send("Documentos cargados exitosamente");
     } catch (error) {
-        console.log(error);
+       // console.log(error);
         res.status(500).send("Error interno del servidor, los mosquitos seran cada vez mas grandes");
     }
 });

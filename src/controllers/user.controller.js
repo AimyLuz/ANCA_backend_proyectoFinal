@@ -15,7 +15,7 @@ class UserController {
     async register(req, res) {
         const { first_name, last_name, email, password, age } = req.body;
         try {
-            console.log("Password recibido:", password); // Log para verificar la contraseña
+            //console.log("Password recibido:", password); // Log para verificar la contraseña
     
             const existeUsuario = await UsersModel.findOne({ email });
             if (existeUsuario) {
@@ -26,7 +26,7 @@ class UserController {
             await nuevoCarrito.save();
             
             const hashedPassword = createHash(password);
-            console.log("Hashed Password:", hashedPassword); // Log para verificar el hash
+            //console.log("Hashed Password:", hashedPassword); // Log para verificar el hash
     
             const nuevoUsuario = new UsersModel({
                 first_name,
@@ -50,7 +50,7 @@ class UserController {
             if (!req.user) {
                 return res.status(400).send("Credenciales inválidas");
             }
-            console.log("Usuario autenticado en login:", req.user);
+            //console.log("Usuario autenticado en login:", req.user);
     
             // Actualizar la última conexión del usuario
             req.user.last_connection = new Date();
@@ -65,7 +65,7 @@ class UserController {
             await ensureCart(req, res, async () => {
                 // Crear una instancia de UserDTO para encapsular los datos del usuario
                 const userDTO = new UserDTO(req.user);
-                console.log("UserDTO creado:", userDTO);
+               // console.log("UserDTO creado:", userDTO);
     
                 // Asignar los datos del usuario a la sesión, asegurando que todos los campos están presentes
                 req.session.user = {
@@ -82,7 +82,7 @@ class UserController {
                 };
                 req.session.login = true;
     
-                console.log("Sesión del usuario asignada:", req.session.user);
+               // console.log("Sesión del usuario asignada:", req.session.user);
     
                 // Guardar la sesión
                 req.session.save((err) => {
@@ -117,7 +117,7 @@ class UserController {
             //next(createError(ERROR_TYPES.SERVER_ERROR, "Error interno del servidor", { originalError: error.message }));
             req.logger.error("Error interno del servidor: " + error.message);
         }
-        console.log("Sesión del usuario después de login:", req.session.user);
+        //console.log("Sesión del usuario después de login:", req.session.user);
     }
 
     async profile(req, res) {

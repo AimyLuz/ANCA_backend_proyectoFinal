@@ -12,7 +12,7 @@ socket.on('connect', () => {
 
 // Capturo campos del formulario, envío evento para agregar producto y borro contenido de los campos del formulario
 form.addEventListener('submit', ev => {
-    console.log('addevent')
+    //console.log('addevent')
     ev.preventDefault();
     const newProduct = {
         title: ev.target.title.value,
@@ -30,7 +30,7 @@ form.addEventListener('submit', ev => {
 
 // Escucho evento para renderizar lista de productos
 socket.on('products', (data) => {
-    console.log('Datos recibidos:', data);
+   // console.log('Datos recibidos:', data);
     if (data && Array.isArray(data.products)) {
         while (catalogue.firstChild) {
             catalogue.removeChild(catalogue.firstChild);
@@ -54,7 +54,7 @@ socket.on('products', (data) => {
 
 // Escucho evento de confirmación de producto agregado
 socket.on('success', () => {
-    console.log('Producto agregado con éxito');
+    //console.log('Producto agregado con éxito');
     Swal.fire({
         title: "Agregado!",
         text: "Se agregó correctamente el producto",
@@ -64,7 +64,7 @@ socket.on('success', () => {
 
 // Escucho evento de error al agregar producto
 socket.on('error', () => {
-    console.log('No se agregó');
+   // console.log('No se agregó');
     Swal.fire({
         title: 'Ups!',
         text: "No se pudo agregar el producto",

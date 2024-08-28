@@ -66,20 +66,20 @@ const initializePassport = () => {
     passport.use("github", new GitHubStrategy({
         clientID: "Iv23liVkzNCXPxb64kEh",
         clientSecret: "11defeda49832ac1c043b0b27320612a694f751f",
-        callbackURL: "https://ancabackendproyectofinal-production.up.railway.app/api/users/githubcallback"
+        callbackURL: "http://localhost:8080/api/users/githubcallback"
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             let usuario = await UsersModel.findOne({ email: profile._json.email });
-
+    
             if (!usuario) {
                 let nuevoUsuario = {
                     first_name: profile._json.name,
                     last_name: "",
                     age: 30,
                     email: profile._json.email,
-                    password: ""
+                    password: "" // Asume que no se usa contraseña para GitHub
                 }
-
+    
                 let resultado = await UsersModel.create(nuevoUsuario);
                 done(null, resultado);
             } else {

@@ -8,7 +8,7 @@ const sendButton = document.getElementById("sendButton");
 const userLogin = document.getElementById("userLogin").innerText.trim();
 
 // Añadir un console.log para verificar el nombre de usuario capturado
-console.log("Usuario que envía el mensaje:", userLogin);
+//console.log("Usuario que envía el mensaje:", userLogin);
 
 // Evento para enviar mensaje al presionar Enter
 chatBox.addEventListener("keyup", (event) => {

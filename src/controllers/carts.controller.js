@@ -60,7 +60,7 @@ class CartsController {
         } catch (error) {
             next(createError(ERROR_TYPES.SERVER_ERROR, "Error interno del servidor", { originalError: error.message }));
             req.logger.error("Error interno del servidor" + error.mensaje)
-            console.log("Error en addproducttocart: ", error);
+           //console.log("Error en addproducttocart: ", error);
         }
     }
 

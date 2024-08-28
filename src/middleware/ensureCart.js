@@ -20,7 +20,7 @@ const ensureCart = async (req, res, next) => {
                 return res.status(500).json({ error: 'Error interno del servidor' });
             }// Actualizar la sesión con el carrito del usuario
             //req.session.user.cart = 'default-cart-id';
-            console.log("Asegurando carrito para el usuario:", req.user);
+            //console.log("Asegurando carrito para el usuario:", req.user);
         } catch (error) {
             console.error("Error al asegurar carrito para el usuario:", error);
             return res.status(500).json({ error: 'Error interno del servidor' });

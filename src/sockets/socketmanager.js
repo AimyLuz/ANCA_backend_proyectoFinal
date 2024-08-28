@@ -13,7 +13,7 @@ class SocketManager {
 
     initSocketEvents() {
         this.io.on("connection", async (socket) => {
-            console.log("Un cliente se conectó");
+          //  console.log("Un cliente se conectó");
 
             // Emite la lista de productos actualizada cuando un cliente se conecta
             socket.emit("productos", await productRepository.getProducts({}, { limit: 100 }));
@@ -35,7 +35,7 @@ class SocketManager {
 
                     // Manejo del chat
             socket.on("message", async (data) => {
-            console.log("Mensaje recibido:", data); // Verificar datos
+           // console.log("Mensaje recibido:", data); // Verificar datos
             await MessageModel.create(data);
             const messages = await MessageModel.find();
             this.io.emit("messagesLogs", messages); // Emitir mensajes actualizados
