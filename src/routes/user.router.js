@@ -12,6 +12,7 @@ const router = express.Router();
 import upload from "../middleware/multer.js";
 import EmailManager from "../service/email.js";
 import { createHash } from "../utils/hashbcryp.js";
+import mongoose from "mongoose";
 // Nueva ruta para obtener todos los usuarios
 router.get("/", async (req, res) => {
     try {
@@ -73,7 +74,11 @@ router.post('/admin/users/delete/:id', async (req, res) => {
 router.get("/:uid", async (req, res) => {
     try {
         const userId = req.params.uid;
-        const user = await ur.getById(userId); // 
+        const user = await ur.getById(userId); //
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).send('ID de usuario inválido');
+        }
+ 
         if (!user) {
             return res.status(404).send({ error: 'Usuario no encontrado' });
         }
@@ -108,8 +113,9 @@ router.get("/failedregister", (req, res) => res.send("Registro Fallido!"));
 router.get("/faillogin", (req, res) => res.send("Fallo todo, vamos a morir"));
 
 router.get("/github", passport.authenticate("github", { scope: ["user:email"] }), (req, res) => {});
+
 router.get("/githubcallback", passport.authenticate("github", { failureRedirect: "/login" }), (req, res) => {
-    req.session.user = req.user;
+    req.session.user = req.user;  // Asegúrate de que req.user tenga los datos correctos
     req.session.login = true;
     res.redirect("/profile");
 });
@@ -126,6 +132,7 @@ router.get('/current', authMiddleware, async (req, res) => {
         const userDTO = await ur.getById(userId);
         res.json(userDTO);
     } catch (error) {
+        req.logger.error('Error al obtener el usuario actual: ' + error.message);
         res.status(500).send('Error interno del servidor');
     }
 });

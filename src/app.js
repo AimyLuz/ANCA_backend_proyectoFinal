@@ -46,10 +46,15 @@ app.use(session({
     saveUninitialized: true,
     //cookie: { secure: false, maxAge: 86400000 } // 1 día
 }));
-app.use((req, res, next) => {
+  // Passport
+  app.use(passport.initialize());
+  app.use(passport.session());
+  initializePassport();
+
+//app.use((req, res, next) => {
     //console.log("Sesión actual:", req.session);
-    next();
-});
+  //  next();
+//});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./src/public'));
@@ -64,10 +69,7 @@ app.use(compression());
 // Manejo de errores
 app.use(errorHandler);
 
-  // Passport
-  app.use(passport.initialize());
-  app.use(passport.session());
-  initializePassport();
+
   
   
 const swaggerOptions ={
