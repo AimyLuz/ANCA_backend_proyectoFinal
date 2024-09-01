@@ -52,11 +52,6 @@ const usersSchema = new mongoose.Schema({
     last_connection: {
         type: Date, 
         default: Date.now
-    },
-    githubId: {  // Añadimos este campo
-        type: String,
-        unique: true,  // Opcional: Asegura que no haya duplicados
-        sparse: true   // Opcional: Permite que otros documentos no tengan este campo
     }
 });
 

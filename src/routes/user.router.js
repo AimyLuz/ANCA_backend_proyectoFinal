@@ -113,9 +113,8 @@ router.get("/failedregister", (req, res) => res.send("Registro Fallido!"));
 router.get("/faillogin", (req, res) => res.send("Fallo todo, vamos a morir"));
 
 router.get("/github", passport.authenticate("github", { scope: ["user:email"] }), (req, res) => {});
-
 router.get("/githubcallback", passport.authenticate("github", { failureRedirect: "/login" }), (req, res) => {
-    req.session.user = req.user;  // Asegúrate de que req.user tenga los datos correctos
+    req.session.user = req.user;
     req.session.login = true;
     res.redirect("/profile");
 });
